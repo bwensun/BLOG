@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bwensun.repository.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.bwensun.blog.domain.User">
+        <id column="ID" property="id" />
+        <result column="USER_NAME" property="userName" />
+        <result column="PASSWORD" property="password" />
+    </resultMap>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from user
+        where ID = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.bwensun.blog.domain.User">
+        insert into user (ID, USER_NAME, PASSWORD)
+        values (#{id}, #{userName}, #{password})
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.bwensun.blog.domain.User">
+        update user
+        set USER_NAME = #{userName},
+            PASSWORD = #{password}
+        where ID = #{id}
+    </update>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select ID, USER_NAME, PASSWORD
+        from user
+        where ID = #{id}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select ID, USER_NAME, PASSWORD
+        from user
+    </select>
+</mapper>

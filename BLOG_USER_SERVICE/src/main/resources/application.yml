@@ -1,0 +1,17 @@
+dubbo:
+  application:
+    name: boot-order-service-consumer
+  registry:
+    #address: zookeeper://localhost:2181
+    address: zookeeper://47.103.215.103:2181?backup=47.103.215.103:2182,47.103.215.103:2183
+    file: dubbo-registry/dubbo-registry.properties
+
+#  monitor:
+#    protocol: registry
+server:
+  port: 8081
+spring:
+  profiles:
+    include: druid
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
