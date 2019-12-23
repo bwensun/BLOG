@@ -4,6 +4,7 @@ import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.dom.java.*;
 
+import org.mybatis.generator.config.PropertyRegistry;
 import org.mybatis.generator.internal.DefaultCommentGenerator;
 import org.mybatis.generator.internal.util.StringUtility;
 
@@ -21,6 +22,8 @@ import java.util.Set;
  */
 public class CustomCommentGenerator extends DefaultCommentGenerator {
 
+    private static final String COMMENT_GENERATOR_AUTHOR = "author";
+
     private Properties properties;
 
     public CustomCommentGenerator() {
@@ -31,22 +34,6 @@ public class CustomCommentGenerator extends DefaultCommentGenerator {
     public void addConfigurationProperties(Properties properties) {
         // 获取自定义的 properties
         this.properties.putAll(properties);
-    }
-
-    /**
-     * 添加 swagger 字段注解
-     *
-     * @param field              字段
-     * @param introspectedTable  表
-     * @param introspectedColumn 列
-     * @param imports            导入类
-     */
-    @Override
-    public void addFieldAnnotation(Field field, IntrospectedTable introspectedTable, IntrospectedColumn introspectedColumn, Set<FullyQualifiedJavaType> imports) {
-        imports.add(new FullyQualifiedJavaType("io.swagger.annotations.ApiModelProperty"));
-        String remarks = introspectedColumn.getRemarks();
-        field.addAnnotation(this.getSwaggerAnnotation(field.getName(), remarks));
-        super.addFieldAnnotation(field, introspectedTable, introspectedColumn, imports);
     }
 
     @Override
@@ -84,8 +71,8 @@ public class CustomCommentGenerator extends DefaultCommentGenerator {
 
     @Override
     public void addModelClassComment(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        String author = properties.getProperty("author");
-        String dateFormat = properties.getProperty("dateFormat", "yyyy-MM-dd");
+        String author = properties.getProperty(COMMENT_GENERATOR_AUTHOR, "author");
+        String dateFormat = properties.getProperty(PropertyRegistry.COMMENT_GENERATOR_DATE_FORMAT, "yyyy/MM/dd");
         SimpleDateFormat dateFormatter = new SimpleDateFormat(dateFormat);
 
         // 获取表注释
@@ -97,25 +84,6 @@ public class CustomCommentGenerator extends DefaultCommentGenerator {
         topLevelClass.addJavaDocLine(" * @author " + author);
         topLevelClass.addJavaDocLine(" * @date " + dateFormatter.format(new Date()));
         topLevelClass.addJavaDocLine(" */");
-    }
-
-    /**
-     * 获取 swagger 注解信息
-     *
-     * @param name    字段名
-     * @param remarks 注释信息
-     * @return 返回 swagger 注释字符串
-     */
-    private String getSwaggerAnnotation(String name, String remarks) {
-        StringBuffer buffer = new StringBuffer("@ApiModelProperty(");
-        buffer.append("name = \"");
-        buffer.append(name);
-        if (StringUtility.stringHasValue(remarks)) {
-            buffer.append("\", value = \"");
-            buffer.append(remarks);
-        }
-        buffer.append("\")");
-        return buffer.toString();
     }
 
     private String getMethodDoc(Method method, IntrospectedTable introspectedTable) {

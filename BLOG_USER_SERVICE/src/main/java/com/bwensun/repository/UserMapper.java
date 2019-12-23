@@ -2,18 +2,15 @@ package com.bwensun.repository;
 
 import com.bwensun.blog.domain.User;
 import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 /**
  * 用户表
  *
  * @author 郑建雄
- * @date 2019-12-18
+ * @date 2019/12/23
  */
 @Repository
-@Mapper
 public interface UserMapper {
     /**
      * 根据主键删除用户表记录

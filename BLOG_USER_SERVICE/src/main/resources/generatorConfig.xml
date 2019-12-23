@@ -14,12 +14,14 @@
             <property name="author" value="郑建雄"/>
             <property name="builder" value="false"/>
             <property name="data" value="false"/>
+            <property name="swagger2" value="false"/>
         </plugin>
 
         <commentGenerator type = "com.bwensun.common.mybatis.CustomCommentGenerator">
             <property name="javaFileEncoding" value="UTF-8"/>
             <property name="suppressDate" value="true" />
             <property name="suppressAllComments" value="false" />
+            <property name="addRemarkComments" value="false" />
             <property name="author" value="郑建雄"/>
             <property name="dateFormat" value="yyyy/MM/dd"/>
         </commentGenerator>
