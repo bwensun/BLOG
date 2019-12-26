@@ -2,6 +2,8 @@ package com.bwensun.repository;
 
 import com.bwensun.blog.domain.User;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 /**
